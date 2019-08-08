@@ -113,19 +113,21 @@ var multipartFormBinder requestBinder = defaultMultipartFormBinder
 func defaultMultipartFormBinder(req *http.Request, userStruct FieldMapper) Errors {
 	var errs Errors
 
-	multipartReader, err := req.MultipartReader()
-	if err != nil {
-		errs.Add([]string{}, DeserializationError, err.Error())
-		return errs
-	}
+	if req.MultipartForm == nil {
+		multipartReader, err := req.MultipartReader()
+		if err != nil {
+			errs.Add([]string{}, DeserializationError, err.Error())
+			return errs
+		}
 
-	form, parseErr := multipartReader.ReadForm(MaxMemory)
-	if parseErr != nil {
-		errs.Add([]string{}, DeserializationError, parseErr.Error())
-		return errs
-	}
+		form, parseErr := multipartReader.ReadForm(MaxMemory)
+		if parseErr != nil {
+			errs.Add([]string{}, DeserializationError, parseErr.Error())
+			return errs
+		}
 
-	req.MultipartForm = form
+		req.MultipartForm = form
+	}
 
 	return bindForm(req, userStruct, req.MultipartForm.Value, req.MultipartForm.File)
 }

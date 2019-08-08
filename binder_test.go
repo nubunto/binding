@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/mholt/binding"
+	"github.com/nubunto/binding"
 )
 
 type MyBinder map[string]string

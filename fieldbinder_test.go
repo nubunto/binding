@@ -10,7 +10,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/mholt/binding"
+	"github.com/nubunto/binding"
 )
 
 type MyType struct {
